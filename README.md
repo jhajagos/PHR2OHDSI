@@ -1,12 +1,12 @@
 ## Colab Notebooks for Mapping XML CDAs for Analytics
 
 This repository brings together several Colab Notebooks for converting CDA XMLs to OHDSI
-parquet files. This allows an individual to convert a personal health record to a format 
-compatible for performing analysis.
+Parquet files. This allows an individual to convert disparate records
+to an industry standard common data model (CDM) for unified analysis.
 
-The requirements for these notebooks is that you have a Google account. You have signed up 
-with  https://colab.research.google.com/ and https://drive.google.com/ and familiar with
-these services.
+The primary requirements for these notebooks is that you have a Google account. You have signed up 
+with  https://colab.research.google.com/ and https://drive.google.com/ . You should be familiar with 
+uploading files to Google Drive, basic familarity with Python, and running notebooks in Colab.
 
 ### What is a XML CDA
 
@@ -16,9 +16,8 @@ these services.
 
 ### Risks (Read This Before Preceeding!!!)
 
-XML CDAs differ in quality across different EHR portals. The code here has been tested on only a subset
-of CDAs available to the author. This code is developmental code to explore if XML CDAs have suitablity
-data analysis. 
+XML CDAs downloaded from EHR portals vary in quality. The code here has been tested on only a subset
+of CDAs available to the author. This code is developmental code to explore if XML CDAs.
 
 All analyses done with CDAs is for education purposes only and any medical decisions made should be
 done with a licensed health care provider.
