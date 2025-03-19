@@ -1,14 +1,18 @@
 ## Colab Notebooks for Mapping XML CDAs for Analytics
 
 This repository brings together several Colab Notebooks for converting CDA XMLs to OHDSI
-Parquet files. This allows an individual to convert disparate records
-to an industry standard common data model (CDM) for unified analysis.
+Parquet files. CDAs are structured documents which can be downloaded from 
+from a health system's patient portal.  The Colab Notebooks allows an individual to convert 
+disparate records to an industry standard OHDSI Common Data Model (CDM) for analysis.
 
 The primary requirements for these notebooks is that you have a Google account. You have signed up 
 with  https://colab.research.google.com/ and https://drive.google.com/ . You should be familiar with 
 uploading files to Google Drive, basic familarity with Python, and running notebooks in Colab.
 
-### What is a XML CDA
+### What is an XML CDA
+
+CDA (Consolidate Document Architecture) is a docuemnt used to encode digital health inforamtion
+from Electronic Health Record (EHR).
 
 #### Extracting XML CDAs from Patient Portals
 
@@ -28,6 +32,7 @@ for your Google Account and not share your Google Drive Folder.
 
 ### Converting to Prepared Source
 
+Upload your CDA xml docu ents
 
 ### Converting to OHDSI 
 
