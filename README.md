@@ -1,7 +1,7 @@
 ## Colab Notebooks for Mapping XML C-CDAs for Analytics
 
-This repository brings together several Colab Notebooks for converting CDA XMLs to OHDSI
-Parquet files. CDAs are structured documents which can be downloaded from 
+This repository brings together several Colab Notebooks for converting C-CDA XMLs to OHDSI
+Parquet files. C-CDAs are structured documents which can be downloaded from 
 from a health system's patient portal.  The Colab Notebooks allows an individual to convert 
 disparate records to an industry standard OHDSI Common Data Model (CDM) for analysis.
 
@@ -11,8 +11,9 @@ uploading files to Google Drive, basic familarity with Python, and running noteb
 
 ### What is an XML C-CDA
 
-CDA (Consolidate Document Architecture) is a document used to encode digital health information
-from Electronic Health Record (EHR).
+A C-CDA is a special type of a CDA (Consolidate Document Architecture) XML document. It is used to encode 
+digital health information from Electronic Health Records (EHR). There is also support for the Apple Health 
+CDA XML document which can be extracted from Apple iPhone's.
 
 #### Obtaining XML C-CDAs
 
@@ -48,27 +49,39 @@ CDA_FILE_PATH = "/content/drive/MyDrive/phr_ohdsi/source/jgh_documents/"
 ```
 See the next section for setting `OHDSI_VOCABULARY_PATH`.
 
-Your notebook will fail but you can query the PSF (Prepared Source Format) file and do a 
+Your notebook will fail in the last step but you can query the PSF (Prepared Source Format) file and do a 
 basic analysis of the data.
 
 #### Optional Hash C-CDAs file names
 
 You can hash your C-CDA filenames as many C-CDA names contain patient identifiable information. The notebook `Hash XML Filenames.ipynb`
+can be used for this.
 
 ### Converting to OHDSI 
 
 To fully convert your CDAs to OHDSI CDM you will need to download and stage your OHDSI vocabulary files. Create a directory in
 in your Google Drive called `OHDSI` and a subdirectory called `vocabulary` and create a further sub-directory based on the date `20250317`. 
-In tne notebook
+Upload in the Google Drive Folder the zip file you downloaded from Athena. See instructions [instructions](https://github.com/jhajagos/PreparedSource2OHDSI/tree/main/map/prepared_source/synthea/docker#preparing-concept-files)
+
+In the notebook
 `Process_OHDSI_Vocabularies_For_Mapping.ipynb` update the variable to point to this directory
 
 ```python
 OHSDI_VOCABULARY_PATH = "/content/drive/MyDrive/OHDSI/vocabulary/20250317/"
 ```
-If your C-CDAs contain CPT codes and licensed for CPT codes you need a UMLS API Key.
+If your C-CDAs contain CPT codes and licensed for CPT codes you need a UMLS API Key. https://www.nlm.nih.gov/databases/umls.html
+
+
+Create a text file  `umls_api.json` in the directory `OHSDI_VOCABULARY_PATH`.
+```
+{
+"umls_api": "MYAPI_KEY"
+}
+```
 
 In the  `Map_CDAs_to_OHDSI_CDM_in_a_Colab_Notebook.ipynb` update to 
 ```python
 OHSDI_VOCABULARY_PATH = "/content/drive/MyDrive/OHDSI/vocabulary/20250317/export/"
 ```
+
 This points to the directory of Parquet Files of the converted OHDSI files.
