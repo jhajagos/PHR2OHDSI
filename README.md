@@ -85,3 +85,6 @@ OHSDI_VOCABULARY_PATH = "/content/drive/MyDrive/OHDSI/vocabulary/20250317/export
 ```
 
 This points to the directory of Parquet Files of the converted OHDSI files.
+
+You can now run the Colab Notebook: `Working_out_DQ_with_Mapped_Data_OHDSI_Statistics.ipynb` 
+for basic statistics on the converted data.
