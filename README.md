@@ -7,7 +7,7 @@ The Colab Notebooks allows an individual to convert
 disparate records to an industry standard OHDSI Common Data Model (CDM) for analysis.
 
 The primary requirements for these notebooks is that you have a Google account. You have signed up 
-and activated  https://colab.research.google.com/ and https://drive.google.com/ . You should be familiar with 
+and activated these services:  https://colab.research.google.com/ and https://drive.google.com/ . You should be familiar with 
 uploading files to Google Drive, have basic familarity with the Python programming language, 
 and running notebooks in Colab.
 
@@ -20,10 +20,9 @@ CDA XML document which can be extracted from Apple iPhone's Health App.
 #### Obtaining XML C-CDAs
 
 See https://github.com/jhajagos/PreparedSource2OHDSI/tree/main/map/prepared_source/cda for a basic instructions
-for finding and downloading.
+for finding and downloading C-CDAs from health care provider.
 
-A public repository of example C-CDAs can be found here:
-https://github.com/HL7/C-CDA-Examples
+A public repository of example C-CDAs can be found here: https://github.com/HL7/C-CDA-Examples
 
 ### Risks (Read This Before Preceeding!!!)
 
@@ -48,14 +47,15 @@ We will be using Google Colab's Secrets for setting environment variables. For h
 
 Set the secret `PHR2OHDSI_CDA_PATH`to "/content/drive/MyDrive/phr_ohdsi/source/fml_documents/"
 
-See the next secret `OHDSI_VOCABULARY_PATH`.
+Set the secret `OHDSI_VOCABULARY_PATH to the directory where you have uploaded the ZIP file downloaded from Athena.
 
-Your notebook will fail in the last step but you can query the PSF (Prepared Source Format) file and do a 
+To execute your notebook go to the top menu `Runtime` -> `Run All`. Your notebook will likely fail the conversion step as we have not run the 
+concept processing step but you can still query the PSF (Prepared Source Format) Parqyewt files and do a 
 basic analysis of the data.
 
 #### Optional Hash C-CDAs file names
 
-You can hash your C-CDA filenames as many C-CDA names contain patient identifiable information. The notebook `Hash XML Filenames.ipynb`
+You can hash your C-CDA filenames as many C-CDAs file names contain patient identifiable information. The notebook `Hash XML Filenames.ipynb`
 can be used for this.
 
 ### Converting to OHDSI 
@@ -64,15 +64,30 @@ To fully convert your CDAs to OHDSI CDM you will need to download and stage your
 in your Google Drive called `OHDSI` and a subdirectory called `vocabulary` and create a further sub-directory based on the date `20250317`. 
 Upload in the Google Drive Folder the zip file you downloaded from Athena. See instructions [instructions](https://github.com/jhajagos/PreparedSource2OHDSI/tree/main/map/prepared_source/synthea/docker#preparing-concept-files)
 
-Open the ffollowing notebook in Colab: `Process_OHDSI_Vocabularies_For_Mapping.ipynb`. First make sure you set the secret `PHR2OHDSI_VOCAB_PATH`  
+Open the following notebook in Colab: `Process_OHDSI_Vocabularies_For_Mapping.ipynb`. First make sure you set the secret `PHR2OHDSI_VOCAB_PATH`  
 update the variable to point to this directory `/content/drive/MyDrive/OHDSI/vocabulary/20250922/` or the directory which you have copied the Zip 
 folder.
 
+If your C-CDAs contain CPT codes and you will need a UMLS API Key. https://www.nlm.nih.gov/databases/umls.html
+CPT codes are copy righted and you will need a license from the AMA to work with CPT codes. Most CDAs in my experience contain minimal CPT codes. 
 
-If your C-CDAs contain CPT codes and you have a license for CPT codes you need a UMLS API Key. https://www.nlm.nih.gov/databases/umls.html
-
-Then Set the following secret in Google Colab `UMLS_API_KEY` to your API key.
-
+Set the following secret in Google Colab `UMLS_API_KEY` to your API key from the UMLS site.
 
 You can now run the Colab Notebook: `Working_out_DQ_with_Mapped_Data_OHDSI_Statistics.ipynb` 
-for basic statistics on the converted data.
+for basic statistics on the converted data. This notebook also contains codes which can be modified by 
+you to write SQL queries as your were connected to a traditional OHDSI database.
+
+### Can I use standard OHDSI tools to analyze
+
+Yes, but this requires that you have a relational database system accessible from Google Colab. There are conversion scripts for the mapper: 
+https://github.com/jhajagos/PreparedSource2OHDSI/blob/main/map/ohdsi/utilities/sqlserver/transfer_parquet_files_to_sql_server.py. 
+
+You will need to make modifications to your OHDSI schema to support big integers. 
+
+### How does this actually work
+
+C-CDA XML documents are parsed using XPATH to extract elements from within the XML document. The C-CDA elements are converted to the PSF CSV (Prepared Source Format) and then converted to a set of Apache Parquet files. 
+Apache Parquet files are designed for "Big Data" applications. 
+Then a conversion script is used to map PSF to OHDSI. This same script is used to convert an entire health system's EHR data to OHDSI. When you run Google Colab you are getting a slice of computing system and can run complicated data intensive workloads. PySpark supports a full SQL engine and allows you to write OHDSI compatible. 
+
+This is a personal project I am happy to engage with pull requests to enhance the conversion process and help users get up and running in the conversion process. 
