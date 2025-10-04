@@ -2,18 +2,20 @@
 
 This repository brings together several Colab Notebooks for converting C-CDA XMLs to OHDSI
 Parquet files. C-CDAs are structured documents which can be downloaded from 
-from a health system's patient portal.  The Colab Notebooks allows an individual to convert 
+from a health system's patient portal or extracted from Apple's Health App.  
+The Colab Notebooks allows an individual to convert 
 disparate records to an industry standard OHDSI Common Data Model (CDM) for analysis.
 
 The primary requirements for these notebooks is that you have a Google account. You have signed up 
-with  https://colab.research.google.com/ and https://drive.google.com/ . You should be familiar with 
-uploading files to Google Drive, basic familarity with Python, and running notebooks in Colab.
+and activated  https://colab.research.google.com/ and https://drive.google.com/ . You should be familiar with 
+uploading files to Google Drive, have basic familarity with the Python programming language, 
+and running notebooks in Colab.
 
 ### What is an XML C-CDA
 
 A C-CDA is a special type of a CDA (Consolidate Document Architecture) XML document. It is used to encode 
 digital health information from Electronic Health Records (EHR). There is also support for the Apple Health 
-CDA XML document which can be extracted from Apple iPhone's.
+CDA XML document which can be extracted from Apple iPhone's Health App.
 
 #### Obtaining XML C-CDAs
 
@@ -42,12 +44,11 @@ Google Drive Folder with other users.
 Create a new folder in your Google Drive called `phr_ohdsi`. Create a subdirectory within it called `fml_documents`.
 Upload your CDAs XML dcoument to this folder from your local computer. 
 
-Set the following variable in the notebook `Map_CDAs_to_OHDSI_CDM_in_a_Colab_Notebook.ipynb`
+We will be using Google Colab's Secrets for setting environment variables. For how to set secrets see the following: https://colab.research.google.com/github/google-gemini/cookbook/blob/main/quickstarts/Authentication.ipynb
 
-```python
-CDA_FILE_PATH = "/content/drive/MyDrive/phr_ohdsi/source/jgh_documents/"
-```
-See the next section for setting `OHDSI_VOCABULARY_PATH`.
+Set the secret `PHR2OHDSI_CDA_PATH`to "/content/drive/MyDrive/phr_ohdsi/source/fml_documents/"
+
+See the next secret `OHDSI_VOCABULARY_PATH`.
 
 Your notebook will fail in the last step but you can query the PSF (Prepared Source Format) file and do a 
 basic analysis of the data.
@@ -63,28 +64,15 @@ To fully convert your CDAs to OHDSI CDM you will need to download and stage your
 in your Google Drive called `OHDSI` and a subdirectory called `vocabulary` and create a further sub-directory based on the date `20250317`. 
 Upload in the Google Drive Folder the zip file you downloaded from Athena. See instructions [instructions](https://github.com/jhajagos/PreparedSource2OHDSI/tree/main/map/prepared_source/synthea/docker#preparing-concept-files)
 
-In the notebook
-`Process_OHDSI_Vocabularies_For_Mapping.ipynb` update the variable to point to this directory
-
-```python
-OHSDI_VOCABULARY_PATH = "/content/drive/MyDrive/OHDSI/vocabulary/20250317/"
-```
-If your C-CDAs contain CPT codes and licensed for CPT codes you need a UMLS API Key. https://www.nlm.nih.gov/databases/umls.html
+Open the ffollowing notebook in Colab: `Process_OHDSI_Vocabularies_For_Mapping.ipynb`. First make sure you set the secret `PHR2OHDSI_VOCAB_PATH`  
+update the variable to point to this directory `/content/drive/MyDrive/OHDSI/vocabulary/20250922/` or the directory which you have copied the Zip 
+folder.
 
 
-Create a text file  `umls_api.json` in the directory `OHSDI_VOCABULARY_PATH`.
-```
-{
-"umls_api": "MYAPI_KEY"
-}
-```
+If your C-CDAs contain CPT codes and you have a license for CPT codes you need a UMLS API Key. https://www.nlm.nih.gov/databases/umls.html
 
-In the  `Map_CDAs_to_OHDSI_CDM_in_a_Colab_Notebook.ipynb` update to 
-```python
-OHSDI_VOCABULARY_PATH = "/content/drive/MyDrive/OHDSI/vocabulary/20250317/export/"
-```
+Then Set the following secret in Google Colab `UMLS_API_KEY` to your API key.
 
-This points to the directory of Parquet Files of the converted OHDSI files.
 
 You can now run the Colab Notebook: `Working_out_DQ_with_Mapped_Data_OHDSI_Statistics.ipynb` 
 for basic statistics on the converted data.
