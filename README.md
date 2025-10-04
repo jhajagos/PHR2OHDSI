@@ -82,12 +82,14 @@ you to write SQL queries as your were connected to a traditional OHDSI database.
 Yes, but this requires that you have a relational database system accessible from Google Colab. There are conversion scripts for the mapper: 
 https://github.com/jhajagos/PreparedSource2OHDSI/blob/main/map/ohdsi/utilities/sqlserver/transfer_parquet_files_to_sql_server.py. 
 
-You will need to make modifications to your OHDSI schema to support big integers. 
+You will need to make modifications to your OHDSI schema to support big integers. I have SQL scripts for modifying the schema for PostGreSQL and Microsoft SQL Server. 
 
 ### How does this actually work
 
 C-CDA XML documents are parsed using XPATH to extract elements from within the XML document. The C-CDA elements are converted to the PSF CSV (Prepared Source Format) and then converted to a set of Apache Parquet files. 
 Apache Parquet files are designed for "Big Data" applications. 
-Then a conversion script is used to map PSF to OHDSI. This same script is used to convert an entire health system's EHR data to OHDSI. When you run Google Colab you are getting a slice of computing system and can run complicated data intensive workloads. PySpark supports a full SQL engine and allows you to write OHDSI compatible. 
+Then a conversion script is used to map PSF, which is an intermediary format, to OHDSI. This same script is used to convert an entire health system's EHR data to the OHDSI CDM. 
+
+When you run Google Colab you are getting a slice of computing system and can run complicated data intensive workloads with PySpark. PySpark supports a full SQL engine and allows you to write OHDSI compatible so most of the SQL you have written to analyze OHDSI data should work with minimal changes. 
 
 This is a personal project I am happy to engage with pull requests to enhance the conversion process and help users get up and running in the conversion process. 
